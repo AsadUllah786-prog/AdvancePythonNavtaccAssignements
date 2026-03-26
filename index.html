@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Portfolio | Web & Security Expert</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================
+           1. BASE STYLES & VARIABLES
+           ========================================== */
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #ec4899;
+            --bg-dark: #0b0f19;
+            --bg-light: #f3f4f6;
+            --text-dark: #f9fafb;
+            --text-light: #1f2937;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: rgba(0, 0, 0, 0.3);
+            --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease;
+        }
+
+        body.light-mode {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            --glass-bg: rgba(0, 0, 0, 0.03);
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --glass-shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Utility */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px var(--glass-shadow);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn.primary {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            color: inherit;
+            border: 2px solid var(--glass-border);
+            margin-left: 1rem;
+        }
+
+        /* Custom Cursors */
+        .cursor-dot,
+        .cursor-outline {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+        }
+
+        .cursor-outline {
+            width: 35px;
+            height: 35px;
+            border: 2px solid var(--secondary);
+            transition: transform 0.2s ease-out;
+        }
+
+        /* ==========================================
+           2. SMART HEADER
+           ========================================== */
+        header {
+            position: fixed;
+            top: 1.5rem;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .glass-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            border-radius: 50px;
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px var(--glass-shadow);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            top: 0;
+            width: 100%;
+        }
+
+        header.scrolled .glass-nav {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 0;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        body.light-mode .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        /* ==========================================
+           3. HERO & COUNTERS
+           ========================================== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(var(--primary), var(--secondary));
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.25;
+            animation: floatGlow 10s infinite alternate;
+        }
+
+        @keyframes floatGlow {
+            0% {
+                transform: translate(-100px, -100px);
+            }
+
+            100% {
+                transform: translate(100px, 100px);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .typewriter-cursor {
+            border-right: 2px solid var(--secondary);
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: -60px;
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+        }
+
+        .stat-item p {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ==========================================
+           4. ABOUT ME SECTION (NEW)
+           ========================================== */
+        .about-me {
+            padding: 100px 0;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #a0aec0;
+        }
+
+        body.light-mode .about-text p {
+            color: #4a5568;
+        }
+
+        .skill-bars {
+            margin-top: 2rem;
+        }
+
+        .bar-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .bar-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .bar-bg {
+            background: var(--glass-border);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0;
+            transition: 2s width ease-in-out;
+        }
+
+        /* ==========================================
+           5. SERVICE GRID & PORTFOLIO FILTER
+           ========================================== */
+        .services {
+            padding: 100px 0;
+            background: rgba(139, 92, 246, 0.02);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .skill-item {
+            padding: 2.5rem 1.5rem;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .skill-item i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            display: block;
+        }
+
+        /* Filter Tabs */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            color: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            min-height: 400px;
+        }
+
+        .project-card {
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .project-card.hide {
+            display: none;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px var(--glass-shadow);
+        }
+
+        .project-img {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .project-card:hover .project-img img {
+            transform: scale(1.1);
+        }
+
+        /* ==========================================
+           6. SOCIALS & CONTACT
+           ========================================== */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .contact-box {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 3rem;
+            padding: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+        }
+
+        body.light-mode input,
+        body.light-mode textarea {
+            color: var(--text-light);
+            background: white;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        #scroll-up {
+            position: absolute;
+            right: 2rem;
+            top: -22px;
+            background: var(--primary);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: 1s all ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+
+            .nav-links,
+            .cursor-dot,
+            .cursor-outline {
+                display: none;
+            }
+
+            .about-content,
+            .contact-box {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <header id="main-header">
+        <nav class="glass-nav">
+            <div class="logo">Ahsan<span class="gradient-text">.DEV</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#work">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button id="theme-toggle"
+                    style="background:none; border:none; color:inherit; cursor:pointer; font-size: 1.2rem;">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="#contact" class="btn primary" style="padding: 0.5rem 1.2rem; font-size: 0.8rem;">Hire</a>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="bg-glow"></div>
+        <div class="reveal">
+            <h1>Crafting the <span class="gradient-text">Digital Future</span></h1>
+            <h2 style="font-weight: 400; font-size: 1.5rem; min-height: 40px;">
+                I Am a <span id="typing-span"></span><span class="typewriter-cursor">|</span>
+            </h2>
+            <div style="margin-top: 2rem;">
+                <a href="#work" class="btn primary">View My Work</a>
+                <a href="#about" class="btn secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="stats-grid glass-card reveal">
+            <div class="stat-item">
+                <h3 class="counter" data-target="3">0</h3>
+                <p>Years Experience</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="counter" data-target="150">0</h3>
+                <p>Projects Done</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="counter" data-target="99">0</h3>
+                <p>Happy Clients</p>
+            </div>
+        </div>
+    </div>
+
+    <section id="about" class="about-me">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image reveal">
+                    <div class="glass-card"
+                        style="padding: 10px; border-radius: 30px; position: relative; overflow: hidden;">
+                        <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600"
+                            alt="Professional Bio" style="width: 100%; border-radius: 20px; display: block;">
+                    </div>
+                </div>
+                <div class="about-text reveal">
+                    <h2 class="section-title" style="text-align: left;">About <span class="gradient-text">Me</span></h2>
+                    <p>I am a multi-disciplinary developer and designer with over 3 years of experience building
+                        high-performance web ecosystems. My approach blends creative visual storytelling with technical
+                        rigor, specializing in WordPress development and cybersecurity-focused architecture.</p>
+                    <p>Whether it's optimizing a Shopify storefront or securing a complex database, I focus on
+                        delivering scalable results that empower brands to thrive in the digital age.</p>
+
+                    <div class="skill-bars">
+                        <div class="bar-item">
+                            <div class="bar-info"><span>WordPress & WooCommerce</span><span>95%</span></div>
+                            <div class="bar-bg">
+                                <div class="bar-fill" data-percent="95%"></div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-info"><span>Graphic Design (Adobe/Figma)</span><span>90%</span></div>
+                            <div class="bar-bg">
+                                <div class="bar-fill" data-percent="90%"></div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar-info"><span>Cybersecurity Audits</span><span>85%</span></div>
+                            <div class="bar-bg">
+                                <div class="bar-fill" data-percent="85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header reveal" style="text-align: center; margin-bottom: 3rem;">
+                <h2 class="section-title">Expert <span class="gradient-text">Services</span></h2>
+                <p>Multi-disciplinary solutions for the modern web.</p>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-item glass-card reveal">
+                    <i class="fab fa-wordpress"></i>
+                    <h4>WordPress Mastery</h4>
+                    <p>Custom block editor & ACF ecosystems tailored for performance and scalability.</p>
+                </div>
+                <div class="skill-item glass-card reveal">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Technical SEO</h4>
+                    <p>Core Web Vitals optimization and structural audits to dominate search rankings.</p>
+                </div>
+                <div class="skill-item glass-card reveal">
+                    <i class="fas fa-shield-halved"></i>
+                    <h4>Cybersecurity</h4>
+                    <p>Secure defensive architecture and professional audits for peace of mind.</p>
+                </div>
+                <div class="skill-item glass-card reveal">
+                    <i class="fas fa-pen-nib"></i>
+                    <h4>Visual Branding</h4>
+                    <p>High-fidelity UI/UX design in Figma and vector assets in Adobe Illustrator.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="work" class="container" style="padding: 100px 0;">
+        <h2 class="section-title reveal">Curated <span class="gradient-text">Projects</span></h2>
+        <p class="section-subtitle reveal">Explore my latest work across various disciplines.</p>
+
+        <div class="filter-container reveal">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="wordpress">WordPress</button>
+            <button class="filter-btn" data-filter="design">Graphic Design</button>
+        </div>
+
+        <div class="portfolio-grid reveal">
+            <div class="project-card" data-category="wordpress">
+                <div class="project-img"><img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=600"
+                        alt="Work"></div>
+                <div style="padding: 1.5rem;">
+                    <h4>Headless Storefront</h4>
+                    <p style="font-size: 0.9rem; color: var(--primary);">WooCommerce + Elementor</p>
+                </div>
+            </div>
+            <div class="project-card" data-category="design">
+                <div class="project-img"><img
+                        src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600" alt="Work"></div>
+                <div style="padding: 1.5rem;">
+                    <h4>Brand Identity Set</h4>
+                    <p style="font-size: 0.9rem; color: var(--primary);">Illustrator + Figma</p>
+                </div>
+            </div>
+            <div class="project-card" data-category="wordpress">
+                <div class="project-img"><img
+                        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600" alt="Work"></div>
+                <div style="padding: 1.5rem;">
+                    <h4>Consultancy Suite</h4>
+                    <p style="font-size: 0.9rem; color: var(--primary);">WordPress + ACF Pro</p>
+                </div>
+            </div>
+            <div class="project-card" data-category="design">
+                <div class="project-img"><img
+                        src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=600" alt="Work"></div>
+                <div style="padding: 1.5rem;">
+                    <h4>Social Media Assets</h4>
+                    <p style="font-size: 0.9rem; color: var(--primary);">Photoshop + Canva Pro</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="container" style="padding-bottom: 100px;">
+        <div class="contact-box glass-card reveal">
+            <div class="contact-info">
+                <h3>Let's <span class="gradient-text">Connect</span></h3>
+                <p>Currently booking projects for Summer 2026.</p>
+
+                <ul style="list-style: none; margin-top: 2rem;">
+                    <li style="margin-bottom: 1rem;"><i class="fas fa-envelope"
+                            style="color: var(--primary); margin-right: 10px;"></i> admin@portfolio.local</li>
+                    <li><i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 10px;"></i> Remote
+                        Worldwide</li>
+                </ul>
+
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/ahsankhan964/" class="social-icon"><i
+                            class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/Ahsan-coder879/AdvancedPython" class="social-icon"><i
+                            class="fab fa-github"></i></a>
+                    <a href="https://www.behance.net/Ahsanjam" class="social-icon"><i class="fab fa-behance"></i></a>
+
+                </div>
+            </div>
+            <form id="contact-form">
+                <div class="form-group"><input type="text" placeholder="Full Name" required></div>
+                <div class="form-group"><input type="email" placeholder="Email Address" required></div>
+                <div class="form-group"><textarea rows="4" placeholder="Your Project Brief" required></textarea></div>
+                <button type="submit" class="btn primary" style="width: 100%;">Send Transmission</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <button id="scroll-up"><i class="fas fa-arrow-up"></i></button>
+        <p>&copy; 2026 Developer Portfolio. Built with Pixel Perfection.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // 1. SMART HEADER
+            window.addEventListener('scroll', () => {
+                const header = document.getElementById('main-header');
+                header.classList.toggle('scrolled', window.scrollY > 50);
+            });
+
+            // 2. THEME TOGGLE
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('light-mode');
+                themeToggle.querySelector('i').classList.toggle('fa-moon');
+                themeToggle.querySelector('i').classList.toggle('fa-sun');
+            });
+
+            // 3. CUSTOM CURSOR
+            const dot = document.querySelector('.cursor-dot');
+            const outline = document.querySelector('.cursor-outline');
+            window.addEventListener('mousemove', (e) => {
+                dot.style.left = outline.style.left = `${e.clientX}px`;
+                dot.style.top = outline.style.top = `${e.clientY}px`;
+            });
+
+            // 4. TYPEWRITER
+            const textSpan = document.getElementById('typing-span');
+            const phrases = ["Graphic Designer.", "WordPress Developer.", "SEO Specialist."];
+            let pIdx = 0, cIdx = 0, isDeleting = false;
+
+            function type() {
+                const current = phrases[pIdx];
+                textSpan.textContent = isDeleting ? current.substring(0, cIdx--) : current.substring(0, cIdx++);
+                let speed = isDeleting ? 50 : 100;
+                if (!isDeleting && cIdx === current.length + 1) { speed = 2000; isDeleting = true; }
+                else if (isDeleting && cIdx === 0) { isDeleting = false; pIdx = (pIdx + 1) % phrases.length; speed = 500; }
+                setTimeout(type, speed);
+            }
+            type();
+
+            // 5. COUNTERS, REVEAL & SKILL BARS
+            let countersStarted = false;
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Trigger Counters
+                        if (entry.target.querySelector('.counter') && !countersStarted) {
+                            startCounters();
+                            countersStarted = true;
+                        }
+                        // Trigger Skill Bars
+                        if (entry.target.classList.contains('about-text')) {
+                            document.querySelectorAll('.bar-fill').forEach(bar => {
+                                bar.style.width = bar.getAttribute('data-percent');
+                            });
+                        }
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+            function startCounters() {
+                document.querySelectorAll('.counter').forEach(c => {
+                    const target = +c.getAttribute('data-target');
+                    const update = () => {
+                        const val = +c.innerText;
+                        const inc = target / 100;
+                        if (val < target) { c.innerText = Math.ceil(val + inc); setTimeout(update, 20); }
+                        else { c.innerText = target + "+"; }
+                    };
+                    update();
+                });
+            }
+
+            // 6. JAVASCRIPT FILTER LOGIC
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const projects = document.querySelectorAll('.project-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Toggle active class on buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const filterValue = btn.getAttribute('data-filter');
+
+                    projects.forEach(project => {
+                        if (filterValue === 'all' || project.getAttribute('data-category') === filterValue) {
+                            project.classList.remove('hide');
+                            // Small animation re-trigger
+                            project.style.animation = 'none';
+                            project.offsetHeight; // trigger reflow
+                            project.style.animation = null;
+                        } else {
+                            project.classList.add('hide');
+                        }
+                    });
+                });
+            });
+
+            // 7. SCROLL UP
+            document.getElementById('scroll-up').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        });
+    </script>
+</body>
+
+</html>
